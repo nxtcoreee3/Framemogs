@@ -9,7 +9,7 @@ export const supabase = createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
-    detectSessionInUrl: true, // important for OAuth
+    detectSessionInUrl: true,
   },
 });
 
@@ -19,37 +19,42 @@ async function bootstrap() {
       toast("Missing config", "Set Supabase URL and anon key in `src/config.js`.");
     }
 
-    // 🔥 1. FORCE Supabase to process OAuth redirect
-    const { data, error } = await supabase.auth.getSession();
+    // ✅ 1. Let Supabase finish processing OAuth BEFORE anything else
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.getSession();
 
     if (error) {
       console.error("Session error:", error);
     }
 
-    // 🔥 2. CLEAN the ugly OAuth URL (VERY IMPORTANT)
+    console.log("Initial session:", session);
+
+    // ❗ 2. ONLY clean URL AFTER session is read
     if (window.location.hash.includes("access_token")) {
       window.history.replaceState({}, document.title, "#/");
     }
 
-    // 🔥 3. Listen for login/logout changes
+    // ✅ 3. Auth listener (NO reloads — this was breaking Chrome)
     supabase.auth.onAuthStateChange((event, session) => {
       console.log("Auth event:", event);
 
       if (event === "SIGNED_IN") {
-        // redirect after login
-        window.location.hash = "#/";
+        // just update UI, don't reload page
+        render();
       }
 
       if (event === "SIGNED_OUT") {
-        window.location.hash = "#/";
+        render();
       }
     });
 
-    // 🔥 4. Init your auth UI AFTER session is ready
+    // ✅ 4. Init UI AFTER session exists
     await authUI.init({ supabase, state });
 
-    // 🔥 5. Router
-    window.addEventListener("hashchange", () => render());
+    // ✅ 5. Router
+    window.addEventListener("hashchange", render);
 
     await render();
   } catch (err) {
@@ -62,9 +67,9 @@ async function render() {
   const routeView = document.getElementById("routeView");
   if (!routeView) return;
 
-  // 🛠 safer hash handling (prevents #/# bugs)
   let hash = window.location.hash || "#/";
 
+  // safety cleanup for broken OAuth hash
   if (hash.includes("access_token")) {
     hash = "#/";
   }
