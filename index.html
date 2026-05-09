@@ -6,16 +6,23 @@
     <title>Framemogs</title>
     <meta name="description" content="Framemogs — community ranking with votes, comments, and profiles." />
     <link rel="icon" href="./assets/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_detection"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <div id="app">
       <div class="shell">
         <header class="topbar">
-          <a class="brand" href="#/">
-            <span class="brandMark">F</span>
-            <span class="brandText">Framemogs</span>
-          </a>
+          <div class="topbar-left">
+            <a class="brand" href="#/">
+              <span class="brandMark">F</span>
+              <span class="brandText">Framemogs</span>
+            </a>
+          </div>
           <nav class="nav">
             <a class="navLink" href="#/">Rankings</a>
             <a class="navLink" href="#/upload">Upload</a>
@@ -23,7 +30,7 @@
             <a class="navLink" href="#/mod" data-requires="mod">Mod</a>
             <a class="navLink" href="#/dev" data-requires="owner">Dev</a>
           </nav>
-          <div class="auth">
+          <div class="topbar-right auth">
             <button id="authBtn" class="btn btnPrimary">Sign in</button>
             <button id="signOutBtn" class="btn btnGhost hidden">Sign out</button>
           </div>
