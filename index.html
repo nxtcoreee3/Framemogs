@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Framemogs</title>
+    <meta name="description" content="Framemogs — community ranking with votes, comments, and profiles." />
+    <link rel="icon" href="./assets/favicon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="shell">
+        <header class="topbar">
+          <a class="brand" href="#/">
+            <span class="brandMark">F</span>
+            <span class="brandText">Framemogs</span>
+          </a>
+          <nav class="nav">
+            <a class="navLink" href="#/">Rankings</a>
+            <a class="navLink" href="#/upload">Upload</a>
+            <a class="navLink" href="#/following">Following</a>
+            <a class="navLink" href="#/mod" data-requires="mod">Mod</a>
+            <a class="navLink" href="#/dev" data-requires="owner">Dev</a>
+          </nav>
+          <div class="auth">
+            <button id="authBtn" class="btn btnPrimary">Sign in</button>
+            <button id="signOutBtn" class="btn btnGhost hidden">Sign out</button>
+          </div>
+        </header>
+
+        <main class="main">
+          <section id="routeView" class="routeView"></section>
+        </main>
+
+        <footer class="footer">
+          <div class="muted">
+            Built for GitHub Pages + Supabase. Liveness checks are best-effort and can be spoofed.
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <div id="toasts" class="toasts"></div>
+
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
